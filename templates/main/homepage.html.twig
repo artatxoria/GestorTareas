@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    {{ parent() }} - Panel Principal
+{% endblock %}
+{% block body %}
+    <h1>GestorTareas</h1>
+    <p>Bienvenido a tu gestor de tareas personal</p>
+    <p>Hay un total de {{ totalTareas }} tareas en el sistema.</p>
+
+    {% if totalTareas > 400 %}
+        <p>¡Hay muchas tareas pendientes!</p>
+    {% endif %}
+
+    <h2>Tarea de ejemplo</h2>
+    <table>
+        <tr><th>Título</th><td>{{ tarea.titulo|title }}</td></tr>
+        <tr><th>Prioridad</th><td>{{ tarea.prioridad|upper }}</td></tr>
+        <tr><th>Estado</th><td>{{ tarea.estado }}</td></tr>
+    </table>
+{% endblock %}
