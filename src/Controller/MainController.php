@@ -5,25 +5,25 @@
     use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
     use Symfony\Component\HttpFoundation\Response;
 	use Symfony\Component\Routing\Attribute\Route;
+	use App\Repository\TareaRepository;
 	
 	class MainController extends AbstractController
 	{
         #[Route('/', name: 'home')]
-        public function homepage(): Response
+        public function homepage(TareaRepository $repository): Response
         {
-            $totalTareas = 457;   // Valor ficticio por ahora
+            // Obtenemos todas las tareas desde nuestro servicio
+	        $tareas = $repository->findAll();
+			
+			// Seleccionamos una tarea al azar para mostrarla como destacada
+	        $tareaAzar = $tareas[array_rand($tareas)];
 		
-		    $tareaEjemplo = [
-                'titulo' => 'Revisar informe trimestral',
-                'prioridad' => 'alta',
-                'estado' => 'pendiente',
-                'fechaLimite' => '2026-05-15',
-            ];
-                
-            return $this->render('main/homepage.html.twig', [
-                'totalTareas' => $totalTareas,
-                'tarea' => $tareaEjemplo,
-            ]);
+		  return $this->render('main/homepage.html.twig', [
+	            // Pasamos la coleccion completa para contarla en Twig con |length
+	            'tareas' => $tareas,
+	            'tarea'  => $tareaAzar,
+				'totalTareas' => count($tareas),
+	        ]);
         }
 
         #[Route('/sobre-mi', name: 'about')]
