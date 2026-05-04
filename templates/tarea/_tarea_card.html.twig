@@ -1,16 +1,29 @@
-<div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col">
+<div data-controller="closeable tarea-card"
+     class="relative bg-white rounded-xl p-4 shadow-sm border border-gray-100
+            hover:border-blue-200 hover:shadow-md transition-all duration-300
+            flex flex-col">
+
+    {# Botón de cerrar #}
+    <button data-action="closeable#close"
+            class="self-end text-gray-300 hover:text-red-400 transition-colors text-xs">
+        &times; ocultar
+    </button>
 
     {# Estado #}
     <div class="mb-3">
-        <span class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full {{ tarea.estado.getLabelColor() }}">
+        <span class="inline-flex items-center gap-1.5 text-[10px] font-bold
+                     uppercase tracking-widest px-2.5 py-1 rounded-full
+                     {{ tarea.estado.getLabelColor() }}">
             <i class="bi {{ tarea.estado.getIcono() }}"></i>
             {{ tarea.estado.getTextoLegible() }}
         </span>
     </div>
 
     {# Título #}
-    <h4 class="text-sm font-bold text-gray-800 mb-1.5 hover:text-blue-600 transition-colors leading-snug">
-        <a href="{{ path('tarea_show', { id: tarea.id }) }}">
+    <h4  class="text-sm font-bold text-gray-800 mb-1.5 transition-colors leading-snug">
+        <a data-tarea-card-target="titulo"
+        data-action="mouseover->tarea-card#resaltar mouseout->tarea-card#quitarResaltado" 
+        href="{{ path('tarea_show', { id: tarea.id }) }}">
             {{ tarea.titulo }}
         </a>
     </h4>
@@ -23,14 +36,25 @@
     </p>
 
     {# Footer #}
-    <div class="flex justify-between items-center pt-3 border-t border-gray-100 mt-auto">
-        <span class="text-xs font-black {{ tarea.prioridad > 8 ? 'text-red-500' : 'text-blue-500' }}">
-            P{{ tarea.prioridad }}<span class="text-gray-300 font-normal">/10</span>
-        </span>
-        <a href="{{ path('tarea_show', { id: tarea.id }) }}"
-           class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold px-3 py-1.5 rounded-lg transition-all">
-            Ver &rarr;
+    <div class="flex flex-col gap-2 pt-3 border-t border-gray-100 mt-auto">
+        {# Propietario #}
+        <a href="{{ path('usuario_show', { id: tarea.propietario.id }) }}"
+           class="flex items-center gap-1.5 text-xs text-gray-400
+                  hover:text-blue-500 transition-colors w-fit">
+            <i class="bi bi-person-circle"></i>
+            {{ tarea.propietario.nombre }}
         </a>
+        {# Prioridad + botón #}
+        <div class="flex justify-between items-center">
+            <span class="text-xs font-black {{ tarea.prioridad > 8 ? 'text-red-500' : 'text-blue-500' }}">
+                P{{ tarea.prioridad }}<span class="text-gray-300 font-normal">/10</span>
+            </span>
+            <a href="{{ path('tarea_show', { id: tarea.id }) }}"
+               class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-600
+                      font-semibold px-3 py-1.5 rounded-lg transition-all">
+                Ver &rarr;
+            </a>
+        </div>
     </div>
 
 </div>
