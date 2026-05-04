@@ -22,7 +22,7 @@ class DetectarTareasAtrasadasCommand extends Command
 {
     public function __construct(
         private GestionCentralService $gestionService,
-        private TareaRepository $tareaRepository
+        //private TareaRepository $tareaRepository
     ) {
         parent::__construct();
     }
