@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use App\Model\TareaEstadoEnum;
 
 #[Route('/tareas', requirements: ['id' => Requirement::DIGITS])]
 class TareaController extends AbstractController
@@ -46,12 +47,19 @@ class TareaController extends AbstractController
     #[Route('/estado/{status}', name: 'tarea_filtro_estado')]
     public function tarea_filtro_estado(string $status, TareaRepository $repository): Response
     {
+        $estadoEnum = TareaEstadoEnum::from($status);
         // Obtenemos todas las tareas a traves del repositorio
-        $tareas = $repository->findByStatus($status);
+        $tareas = $repository->findByStatus($estadoEnum);
 
         return $this->render('tarea/index.html.twig', [
             'tareas' => $tareas,
         ]);
+    }
+
+    #[Route('/new', name: 'tarea_new')]
+    public function new(): Response
+    {
+        return $this->render('tarea/new.html.twig');
     }
 
 }

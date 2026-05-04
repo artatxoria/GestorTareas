@@ -12,18 +12,7 @@
         #[Route('/', name: 'home')]
         public function homepage(TareaRepository $repository): Response
         {
-            // Obtenemos todas las tareas desde nuestro servicio
-	        $tareas = $repository->findAll();
-			
-			// Seleccionamos una tarea al azar para mostrarla como destacada
-	        $tareaAzar = $tareas[array_rand($tareas)];
-		
-		  return $this->render('main/homepage.html.twig', [
-	            // Pasamos la coleccion completa para contarla en Twig con |length
-	            'tareas' => $tareas,
-	            'tarea'  => $tareaAzar,
-				'totalTareas' => count($tareas),
-	        ]);
+            return $this->redirectToRoute('listado_tareas');
         }
 
         #[Route('/sobre-mi', name: 'about')]

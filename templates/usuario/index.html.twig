@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Usuarios{% endblock %}
+
+{% block body %}
+
+    {# Cabecera #}
+    <div class="flex justify-between items-center mb-6 pr-4">
+        <div>
+            <h1 class="text-2xl font-extrabold text-gray-800">Usuarios</h1>
+            <p class="text-gray-400 text-sm mt-0.5">
+                <span class="text-blue-600 font-semibold">{{ usuarios|length }}</span> usuarios registrados
+            </p>
+        </div>
+    </div>
+
+    {# Rejilla #}
+    <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+        {% for usuario in usuarios %}
+            {{ include('usuario/_usuario_card.html.twig') }}
+        {% else %}
+            {{ include('usuario/_usuario_vacio.html.twig') }}
+        {% endfor %}
+    </div>
+
+{% endblock %}
