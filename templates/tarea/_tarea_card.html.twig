@@ -23,7 +23,7 @@
     <h4  class="text-sm font-bold text-gray-800 mb-1.5 transition-colors leading-snug">
         <a data-tarea-card-target="titulo"
         data-action="mouseover->tarea-card#resaltar mouseout->tarea-card#quitarResaltado" 
-        href="{{ path('tarea_show', { id: tarea.id }) }}">
+        href= "{{ path('tarea_show', { id: tarea.id }) }}">
             {{ tarea.titulo }}
         </a>
     </h4>
