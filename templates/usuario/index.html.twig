@@ -12,7 +12,12 @@
                 <span class="text-blue-600 font-semibold">{{ usuarios|length }}</span> usuarios registrados
             </p>
         </div>
+         <a href="{{ path('usuario_new') }}"
+           class="bg-blue-600 hover:bg-blue-500 text-white text-sm px-4 py-2 rounded-lg font-bold transition-all shadow hover:-translate-y-0.5">
+            + Nuevo Usuario
+        </a>
     </div>
+
 
     {# Rejilla #}
     <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">

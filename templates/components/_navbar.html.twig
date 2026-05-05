@@ -21,6 +21,9 @@
         {# Menú #}
         <div id="navbarNav" class="hidden lg:flex lg:items-center">
             <ul class="flex flex-col lg:flex-row lg:gap-2 bg-blue-600 lg:bg-transparent w-full lg:w-auto absolute lg:static top-16 left-0 px-4 pb-4 lg:p-0">
+                <li><a href="{{ path('app_componente_index') }}" class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition font-semibold">Componentes</a></li>
+                <li><a href="{{ path('listado_usuarios') }}" class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition font-semibold">Usuarios</a></li>
+                <li><a href="{{ path('listado_tareas') }}" class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition font-semibold">Tareas</a></li>
                 <li><a href="{{ path('home') }}"     class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition">Inicio</a></li>
                 <li><a href="{{ path('about') }}"    class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition">Sobre mí</a></li>
                 <li><a href="{{ path('services') }}" class="block px-3 py-2 text-white hover:bg-blue-500 rounded transition">Servicios</a></li>

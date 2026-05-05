@@ -195,4 +195,9 @@ class Usuario
 
         return $this;
     }
+
+    public function getNombreCompleto(): string
+    {
+        return $this->nombre . ' ' . $this->apellido;
+    }
 }

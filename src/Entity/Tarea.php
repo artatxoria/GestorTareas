@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\TareaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Model\TareaEstadoEnum;
+use App\Enum\TareaEstadoEnum;
 
 #[ORM\Entity(repositoryClass: TareaRepository::class)]
 class Tarea
@@ -21,11 +23,11 @@ class Tarea
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $descripcion = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(enumType: TareaEstadoEnum::class)]
     private ?TareaEstadoEnum $estado = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $fecha = null;
+    private ?\DateTimeImmutable $fechaLimite = null;
 
     #[ORM\Column]
     private ?int $prioridad = null;
@@ -33,6 +35,17 @@ class Tarea
     #[ORM\ManyToOne(inversedBy: 'tareas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Usuario $propietario = null;
+
+    /**
+     * @var Collection<int, Componente>
+     */
+    #[ORM\OneToMany(targetEntity: Componente::class, mappedBy: 'tarea')]
+    private Collection $componentes;
+
+    public function __construct()
+    {
+        $this->componentes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -63,19 +76,18 @@ class Tarea
         return $this;
     }
 
-    public function getEstado(): ?string
+    public function getEstado(): ?TareaEstadoEnum
     {
         return $this->estado;
     }
 
-    public function setEstado(string $estado): static
+    public function setEstado(TareaEstadoEnum $estado): static
     {
         $this->estado = $estado;
-
         return $this;
     }
 
-    public function getFechaLimite(): ?\DateTimeImmutable
+   public function getFechaLimite(): ?\DateTimeImmutable
     {
         return $this->fechaLimite;
     }
@@ -83,7 +95,6 @@ class Tarea
     public function setFechaLimite(\DateTimeImmutable $fechaLimite): static
     {
         $this->fechaLimite = $fechaLimite;
-
         return $this;
     }
 
@@ -107,6 +118,36 @@ class Tarea
     public function setPropietario(?Usuario $propietario): static
     {
         $this->propietario = $propietario;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Componente>
+     */
+    public function getComponentes(): Collection
+    {
+        return $this->componentes;
+    }
+
+    public function addComponente(Componente $componente): static
+    {
+        if (!$this->componentes->contains($componente)) {
+            $this->componentes->add($componente);
+            $componente->setTarea($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComponente(Componente $componente): static
+    {
+        if ($this->componentes->removeElement($componente)) {
+            // set the owning side to null (unless already changed)
+            if ($componente->getTarea() === $this) {
+                $componente->setTarea(null);
+            }
+        }
 
         return $this;
     }

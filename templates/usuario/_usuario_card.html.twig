@@ -1,31 +1,42 @@
-<div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-300 flex flex-col">
+<div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col">
 
     {# Foto y nombre #}
-    <div class="flex items-center gap-3 mb-3">
+    <div class="flex items-center gap-4 mb-4">
         <img src="{{ usuario.fotografia }}"
              alt="Foto de {{ usuario.getNombreCompleto() }}"
-             class="w-10 h-10 rounded-full object-cover border-2 border-gray-100 flex-shrink-0">
-        <div class="min-w-0">
-            <h4 class="text-sm font-bold text-gray-800 truncate">{{ usuario.getNombreCompleto() }}</h4>
-            <p class="text-[10px] text-gray-400 truncate">{{ usuario.email }}</p>
+             class="w-16 h-16 rounded-full object-cover border-2 border-gray-100">
+        <div>
+            <h4 class="text-lg font-bold text-gray-800">{{ usuario.getNombreCompleto() }}</h4>
+            <p class="text-xs text-gray-400">{{ usuario.dni }}</p>
         </div>
     </div>
 
-    {# Datos #}
-    <div class="space-y-1.5 flex-grow mb-3">
-        <p class="text-xs text-gray-500 truncate">
-            <span class="font-semibold text-gray-600">Tel:</span> {{ usuario.telefono }}
+    {# Datos de contacto #}
+    <div class="space-y-2 flex-grow mb-6">
+        <p class="text-sm text-gray-500">
+            <span class="font-semibold text-gray-600">Email:</span>
+            {{ usuario.email }}
         </p>
-        <p class="text-xs text-gray-500 truncate">
-            <span class="font-semibold text-gray-600">Ciudad:</span> {{ usuario.ciudad }}
+        <p class="text-sm text-gray-500">
+            <span class="font-semibold text-gray-600">Teléfono:</span>
+            {{ usuario.telefono }}
+        </p>
+        <p class="text-sm text-gray-500">
+            <span class="font-semibold text-gray-600">Ubicación:</span>
+            {{ usuario.ciudad }}, {{ usuario.comunidad }}
         </p>
     </div>
 
-    {# Footer #}
-    <div class="flex justify-between items-center pt-3 border-t border-gray-100 mt-auto">
-        <span class="text-xs font-bold text-gray-400">{{ usuario.edad }} años</span>
+    {# Footer: genero + enlace #}
+    <div class="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
+        <div>
+            <span class="text-xs text-gray-400 uppercase font-semibold block mb-0.5">Edad</span>
+            <span class="font-black text-lg text-blue-600">
+                {{ usuario.genero }}<span class="text-gray-300 text-xs font-normal"></span>
+            </span>
+        </div>
         <a href="{{ path('usuario_show', { id: usuario.id }) }}"
-           class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold px-3 py-1.5 rounded-lg transition-all">
+           class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all">
             Ver &rarr;
         </a>
     </div>

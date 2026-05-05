@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Model;
+namespace App\Enum;
 
 /**
  * Enum para gestionar los estados de una tarea.

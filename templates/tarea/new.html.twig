@@ -1,8 +1,32 @@
+{# templates/tarea/new.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}{{ parent() }} - Nueva Tarea{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Nueva Tarea</h1>
-    <p class="text-gray-500">Formulario en construcción.</p>
+    <div class="max-w-4xl mx-auto">
+        {# Encabezado de la página #}
+        <div class="mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">Crear Nueva Tarea</h1>
+            <p class="mt-2 text-sm text-gray-600">
+                Rellena los campos a continuación para asignar una nueva tarea a un usuario.
+            </p>
+        </div>
+
+        {# Inclusión del formulario parcial #}
+        {# Le pasamos la variable 'button_label' para personalizar el texto del botón de envío #}
+        {{ include('tarea/_form.html.twig', {
+            'button_label': 'Crear Tarea Ahora'
+        }) }}
+
+        {# Enlace de retorno al listado #}
+        <div class="mt-8 pt-4 border-t border-gray-100">
+            <a href="{{ path('listado_tareas') }}" class="inline-flex items-center text-sm font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-200">
+                <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Volver al listado de tareas
+            </a>
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Componente{% endblock %}
+
+{% block body %}
+    <h1>Create new Componente</h1>
+
+    {{ include('componente/_form.html.twig') }}
+
+    <a href="{{ path('app_componente_index') }}">back to list</a>
+{% endblock %}

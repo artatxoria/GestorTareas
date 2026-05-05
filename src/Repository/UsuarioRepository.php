@@ -16,28 +16,58 @@ class UsuarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Usuario::class);
     }
 
-    //    /**
-    //     * @return Usuario[] Returns an array of Usuario objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Devuelve todos los usuarios con el numero de tareas de cada uno.
+     * Usamos una consulta DQL con COUNT para calcular esto eficientemente
+     * en la propia base de datos, sin cargar todas las tareas en memoria.
+     *
+     * @return array Array de [usuario, numTareas]
+     */
+    public function findAllConContadorTareas(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->addSelect('COUNT(t.id) AS numTareas')
+            ->leftJoin('u.tareas', 't')
+            ->groupBy('u.id')
+            ->orderBy('u.apellido', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Usuario
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * Busca usuarios cuyo nombre o apellido contenga el termino de busqueda.
+     * Usamos LIKE para la busqueda parcial, con parametros para evitar
+     * inyeccion SQL (nunca concatenes strings directamente en DQL).
+     *
+     * @return Usuario[]
+     */
+    public function findByNombreOApellido(string $termino): array
+    {
+        $termino = '%' . $termino . '%';
+
+        return $this->createQueryBuilder('u')
+            ->where('u.nombre LIKE :termino')
+            ->orWhere('u.apellido LIKE :termino')
+            ->setParameter('termino', $termino)
+            ->orderBy('u.apellido', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Devuelve los usuarios que tienen al menos una tarea en progreso,
+     * junto con esas tareas precargadas.
+     *
+     * @return Usuario[]
+     */
+    public function findConTareasEnProgreso(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->addSelect('t')
+            ->join('u.tareas', 't')
+            ->where("t.estado = 'en progreso'")
+            ->orderBy('u.nombre', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }
