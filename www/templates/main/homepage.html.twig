@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Panel Principal{% endblock %}
+
+{% block body %}
+
+    {# Cabecera #}
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 pr-4">
+        <div>
+            <h1 class="text-3xl font-extrabold text-gray-800">Cola de Tareas</h1>
+            <p class="text-gray-500 mt-1">
+                Gestionando <span class="text-blue-600 font-semibold">{{ tareas|length }}</span> tareas actualmente
+            </p>
+        </div>
+        <a href="{{ path('tarea_new') }}"
+           class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all shadow hover:-translate-y-0.5">
+            + Nueva Tarea
+        </a>
+    </div>
+
+    {# Rejilla de tarjetas #}
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+
+        {% for tarea in tareas %}
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:border-blue-300 hover:shadow-lg transition-all duration-300 flex flex-col">
+
+                {# Estado #}
+                <div class="mb-4">
+                    <span class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full
+                        {{ tarea.estado.value == 'pendiente'   ? 'bg-amber-100 text-amber-700' :
+                           tarea.estado.value == 'en progreso' ? 'bg-blue-100 text-blue-700' :
+                                                           'bg-green-100 text-green-700' }}">
+                        {{ tarea.estado.value }}
+                    </span>
+                </div>
+
+                {# Título #}
+                <h4 class="text-lg font-bold text-gray-800 mb-2 hover:text-blue-600 transition-colors">
+                    <a href="{{ path('tarea_show', { id: tarea.id }) }}">
+                        {{ tarea.titulo }}
+                    </a>
+                </h4>
+
+                {# Descripción #}
+                <p class="text-gray-500 text-sm leading-relaxed flex-grow mb-6">
+                    {{ tarea.descripcion|length > 100
+                        ? tarea.descripcion|slice(0, 100) ~ '...'
+                        : tarea.descripcion }}
+                </p>
+
+                {# Footer: prioridad + enlace #}
+                <div class="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
+                    <div>
+                        <span class="text-xs text-gray-400 uppercase font-semibold block mb-0.5">Prioridad</span>
+                        <span class="font-black text-lg {{ tarea.prioridad > 8 ? 'text-red-500' : 'text-blue-600' }}">
+                            {{ tarea.prioridad }}<span class="text-gray-300 text-xs font-normal"> / 10</span>
+                        </span>
+                    </div>
+                    <a href="{{ path('tarea_show', { id: tarea.id }) }}"
+                       class="bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold text-sm px-4 py-2 rounded-xl transition-all">
+                        Ver &rarr;
+                    </a>
+                </div>
+
+            </div>
+        {% else %}
+
+            {# Estado vacío #}
+            <div class="col-span-full flex flex-col items-center justify-center py-20 bg-white rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 text-xl font-bold">La lista está despejada</p>
+                <p class="text-gray-300 text-sm mt-2">No tienes tareas asignadas en este momento.</p>
+                <a href="{{ path('tarea_new') }}"
+                   class="mt-6 bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-bold transition-all">
+                    Crear primera tarea
+                </a>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}

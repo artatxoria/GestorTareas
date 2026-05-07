@@ -18,3 +18,8 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+/www/.env
+persistent/
+dump/
+www/var/
+www/vendor/
